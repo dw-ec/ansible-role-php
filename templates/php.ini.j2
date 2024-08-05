@@ -47,7 +47,8 @@ ignore_repeated_errors = Off
 ignore_repeated_source = Off
 report_memleaks = On
 track_errors = Off
-html_errors = On
+html_errors = {{ php_html_errors  }}
+
 
 ;;;;;;;;;;;;;;;;;
 ; Data Handling ;
@@ -88,7 +89,7 @@ max_file_uploads = {{ php_max_file_uploads }}
 ;;;;;;;;;;;;;;;;;;
 
 allow_url_fopen = {{ php_allow_url_fopen }}
-allow_url_include = Off
+allow_url_include = {{ php_allow_url_include }}
 
 default_socket_timeout = 60
 
