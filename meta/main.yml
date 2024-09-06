@@ -1,6 +1,8 @@
 ---
 dependencies: []
 
+allow_duplicates: true
+
 galaxy_info:
   role_name: php
   author: geerlingguy
