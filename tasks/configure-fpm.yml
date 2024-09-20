@@ -54,7 +54,7 @@
   register: actual_fpm_pool_configs
   when:
     - php_enable_php_fpm
-    - php_remove_unwanted_fpm_confs
+    - php_fpm_remove_unmanaged_pools
 
 - name: Deleted unwanted php-fpm pool config files.
   file:
@@ -67,7 +67,7 @@
     }}
   when:
     - php_enable_php_fpm
-    - php_remove_unwanted_fpm_confs
+    - php_fpm_remove_unmanaged_pools
   notify: restart php-fpm
 
 - name: Ensure php-fpm is started and enabled at boot (if configured).
