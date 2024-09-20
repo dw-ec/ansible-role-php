@@ -46,36 +46,28 @@
   notify: restart php-fpm
   register: fpm_pools
 
-- name: Extract fpm pool config paths
-  set_fact:
-    desired_pool_paths: >
-      {{
-        fpm_pools | json_query( "results[*].dest" )
-      }}
-  when: php_enable_php_fpm
-
-- name: Find all php-fpm pool configs
+- name: Find all php-fpm pool config files on host.
   find:
     paths:
       - "{{ php_fpm_pool_conf_path | dirname }}"
     patterns: "*.conf"
-  register: old_fpm_pool_configs
-  when: php_enable_php_fpm
+  register: actual_fpm_pool_configs
+  when:
+    - php_enable_php_fpm
+    - php_remove_unwanted_fpm_confs
 
-- name: Extract just filenames
-  set_fact:
-    actual_pool_paths: >
-      {{
-        old_fpm_pool_configs | json_query( "files[*].path" )
-      }}
-  when: php_enable_php_fpm
-
-- name: Deleted unwanted php-fpm pool config files
+- name: Deleted unwanted php-fpm pool config files.
   file:
     path: "{{ item }}"
     state: absent
-  loop: "{{ actual_pool_paths | difference( desired_pool_paths ) }}"
-  when: php_enable_php_fpm
+  loop: >
+    {{
+      actual_fpm_pool_configs | json_query( "files[*].path" )
+      | difference( fpm_pools | json_query( "results[*].dest" ) )
+    }}
+  when:
+    - php_enable_php_fpm
+    - php_remove_unwanted_fpm_confs
   notify: restart php-fpm
 
 - name: Ensure php-fpm is started and enabled at boot (if configured).
