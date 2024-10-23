@@ -19,6 +19,8 @@ pm.max_requests = {{ item.pool_pm_max_requests | default(500, true) }}
 pm.status_path = {{ item.pool_pm_status_path }}
 {% endif %}
 {% if item.pool_chroot | default(false) %}chroot = {{ item.pool_chroot }}
+php_admin_value[open_basedir] = /
+{% elif item.open_basedir | default(false) %}php_admin_value[open_basedir] = {{ item.open_basedir }}
 {% endif %}
 {% if item.pool_chdir | default(false) %}chdir = {{ item.pool_chdir }}
 {% endif %}
