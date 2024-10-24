@@ -13,7 +13,9 @@
 - name: Set the default PHP version for Debian-based OSes.
   set_fact:
     php_default_version_debian: "{{ __php_default_version_debian }}"
-  when: php_default_version_debian is not defined and ansible_os_family == 'Debian'
+  when: >
+    ( php_default_version_debian is not defined or php_reset_variables  )
+    and ansible_os_family == 'Debian'
 
 - name: Define the name of the JSON extension package on Debian for PHP <8.
   set_fact:
@@ -28,42 +30,44 @@
 - name: Define php_packages.
   set_fact:
     php_packages: "{{ __php_packages | list }}"
-  when: php_packages is not defined
+  when: php_packages is not defined or php_reset_variables
 
 - name: Define php_webserver_daemon.
   set_fact:
     php_webserver_daemon: "{{ __php_webserver_daemon }}"
-  when: php_webserver_daemon is not defined
+  when: php_webserver_daemon is not defined or php_reset_variables
 
 - name: Define php_conf_paths.
   set_fact:
     php_conf_paths: "{{ __php_conf_paths }}"
-  when: php_conf_paths is not defined
+  when: php_conf_paths is not defined or php_reset_variables
 
 - name: Define php_extension_conf_paths.
   set_fact:
     php_extension_conf_paths: "{{ __php_extension_conf_paths }}"
-  when: php_extension_conf_paths is not defined
+  when: php_extension_conf_paths is not defined or php_reset_variables
 
 - name: Define php_apc_conf_filename.
   set_fact:
     php_apc_conf_filename: "{{ __php_apc_conf_filename }}"
-  when: php_apc_conf_filename is not defined
+  when: php_apc_conf_filename is not defined or php_reset_variables
 
 - name: Define php_opcache_conf_filename (Ubuntu 16.04).
   set_fact:
     php_opcache_conf_filename: "10-opcache.ini"
-  when: php_opcache_conf_filename is not defined and ansible_distribution_version == "16.04"
+  when: >
+    ( php_opcache_conf_filename is not defined or php_reset_variables )
+    and ansible_distribution_version == "16.04"
 
 - name: Define php_opcache_conf_filename.
   set_fact:
     php_opcache_conf_filename: "{{ __php_opcache_conf_filename }}"
-  when: php_opcache_conf_filename is not defined
+  when: php_opcache_conf_filename is not defined or php_reset_variables
 
 - name: Define php_fpm_conf_path.
   set_fact:
     php_fpm_conf_path: "{{ __php_fpm_conf_path }}"
-  when: php_fpm_conf_path is not defined
+  when: php_fpm_conf_path is not defined or php_reset_variables
 
 # Setup/install tasks.
 - include_tasks: setup-RedHat.yml

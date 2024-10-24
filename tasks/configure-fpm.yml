@@ -2,22 +2,22 @@
 - name: Define php_fpm_daemon.
   set_fact:
     php_fpm_daemon: "{{ __php_fpm_daemon }}"
-  when: php_fpm_daemon is not defined
+  when: php_fpm_daemon is not defined or php_reset_variables
 
 - name: Define php_fpm_pool_conf_path.
   set_fact:
     php_fpm_pool_conf_path: "{{ __php_fpm_pool_conf_path }}"
-  when: php_fpm_pool_conf_path is not defined
+  when: php_fpm_pool_conf_path is not defined or php_reset_variables
 
 - name: Define php_fpm_pool_user.
   set_fact:
     php_fpm_pool_user: "{{ __php_fpm_pool_user }}"
-  when: php_fpm_pool_user is not defined
+  when: php_fpm_pool_user is not defined or php_reset_variables
 
 - name: Define php_fpm_pool_group.
   set_fact:
     php_fpm_pool_group: "{{ __php_fpm_pool_group }}"
-  when: php_fpm_pool_group is not defined
+  when: php_fpm_pool_group is not defined or php_reset_variables
 
 - name: Stat php_fpm_pool_conf_path
   stat:

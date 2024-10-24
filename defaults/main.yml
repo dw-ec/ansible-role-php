@@ -160,3 +160,5 @@ php_source_configure_command: >
   --with-bz2=/usr
   --with-recode=/usr
   --with-mysqli={{ php_source_mysql_config }}
+
+php_reset_variables: false
