@@ -24,3 +24,4 @@ php_admin_value[open_basedir] = /
 {% endif %}
 {% if item.pool_chdir | default(false) %}chdir = {{ item.pool_chdir }}
 {% endif %}
+php_admin_value[short_open_tag] = On
